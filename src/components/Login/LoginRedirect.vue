@@ -1,6 +1,6 @@
 <template>Loading...</template>
 <script setup lang="ts">
-import { GetTokenParam } from '@/types/System/authorize/GetTokenParam';
+import type { GetTokenParam } from '@/types/System/authorize/GetTokenParam';
 import { getToken } from '@/api/system/Login';
 
 /**
@@ -20,7 +20,7 @@ let getTokenParam: GetTokenParam = {
     grant_type: 'authorization_code',
     code: getQueryString('code'),
     redirect_uri:
-        'http://192.168.4.88:3000/vains3-admin-template-ts/loginRedirect',
+        'http://127.0.0.1:3000/vains3-admin-template-ts/loginRedirect',
 };
 
 getToken(getTokenParam).then((e) => {

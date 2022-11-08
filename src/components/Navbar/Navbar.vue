@@ -53,7 +53,7 @@ const toLogin = (): void => {
     }, 100);
     // http://kwqqr48rgo.cdhttp.cn/oauth2/authorize?response_type=code&client_id=admin&redirect_uri=http://vains-sofia.gitee.io/vains3-admin-template-ts/loginRedirect
     window.open(
-        'http://kwqqr48rgo.cdhttp.cn/oauth2/authorize?response_type=code&client_id=admin&redirect_uri=http://192.168.4.88:3000/vains3-admin-template-ts/loginRedirect',
+        'http://kwqqr48rgo.cdhttp.cn/oauth2/authorize?response_type=code&client_id=admin&redirect_uri=http://127.0.0.1:3000/vains3-admin-template-ts/loginRedirect&scope=all',
         '_newtab'
     );
 };

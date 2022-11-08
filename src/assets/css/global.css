@@ -1,3 +1,16 @@
 .hand-mouse {
     cursor: pointer;
 }
+.base-shadow {
+    box-shadow: var(--el-box-shadow-light);
+}
+
+.base-padding {
+    padding: var(--el-main-padding);
+}
+
+.base-not-bottom-padding {
+    padding-top: var(--el-main-padding);
+    padding-left: var(--el-main-padding);
+    padding-right: var(--el-main-padding);
+}
