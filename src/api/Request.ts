@@ -84,16 +84,33 @@ class Request {
                 const { code } = data;
 
                 if (code && code !== 200) {
-                    ElMessage.error(data.message);
+                    // ElMessage.error(data.message);
                     return Promise.reject(data);
                 }
                 return response.data;
             },
             (error) => {
                 // loading.close();
-                ElMessage.error(
-                    error.code ? `${error.code}:${error.message}` : '请求失败'
-                );
+                if (error.response) {
+                    if (error.response.data.error) {
+                        ElMessage.error(
+                            `${error.response.data.error}:${error.response.data.message}`
+                        );
+                    } else {
+                        ElMessage.error(`${error.response.data.message}`);
+                    }
+                    ElMessage.error(
+                        error.response.data.error
+                            ? `${error.response.data.error}:${error.response.data.message}`
+                            : '请求失败'
+                    );
+                } else {
+                    ElMessage.error(
+                        error.code
+                            ? `${error.code}:${error.message}`
+                            : '请求失败'
+                    );
+                }
                 return Promise.reject(error);
             }
         );

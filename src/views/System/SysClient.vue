@@ -18,17 +18,26 @@
             />
             <div style="padding: 14px">
                 <span>{{ client.clientName }}</span>
-                <span style="float: right" class="time">
-                    {{ client.clientIdIssuedAt }}
-                </span>
+                <!--                <span style="float: right" class="time">-->
+                <!--                    {{ client.clientIdIssuedAt }}-->
+                <!--                </span>-->
                 <div class="bottom">
-                    <time class="time">{{ client.clientId }}</time>
-                    <el-button
-                        text
-                        class="button"
-                        @click="clickItemHandler(client)"
-                        >访问控制</el-button
+                    <time class="time">
+                        {{ client.clientIdIssuedAt }}
+                    </time>
+                    <el-popconfirm
+                        confirm-button-text="确定"
+                        cancel-button-text="取消"
+                        icon="InfoFilled"
+                        icon-color="#626AEF"
+                        width="220px"
+                        :title="`是否确定注销客户端：${client.clientName}?`"
+                        @confirm="handleDelete(client.id)"
                     >
+                        <template #reference>
+                            <el-button text class="button"> 注销 </el-button>
+                        </template>
+                    </el-popconfirm>
                 </div>
             </div>
         </el-col>
@@ -50,7 +59,7 @@
 </template>
 
 <script setup lang="ts">
-import { findClientList } from '@/api/system/ClientApi';
+import { findClientList, removeById } from '@/api/system/ClientApi';
 import type { FindClientParam } from '@/types/System/authorize/FindClientParam';
 import type { FindClientResponse } from '@/types/System/authorize/FindClientResponse';
 import { ref, watch } from 'vue';
@@ -68,6 +77,9 @@ let param: FindClientParam = {
     current: 1,
 };
 
+/**
+ * 获取客户端列表
+ */
 findClientList(param).then((e) => {
     clients.value = e.data;
 });
@@ -81,14 +93,33 @@ watch(router.currentRoute, () => {
         router.currentRoute.value.fullPath.indexOf('clientRegister') < 0;
 });
 
+/**
+ * 点击客户端图片时跳转至详情/修改页
+ * @param client 客户端
+ */
 const clickItemHandler = (client: FindClientResponse): void => {
     // console.log(client);
     router.push(`/system/client/clientDetail/${client.id}`);
 };
 
+/**
+ * 跳转至注册页面
+ */
 const toRegister = (): void => {
     // console.log(client);
     router.push(`/system/client/clientRegister`);
+};
+
+/**
+ * 注销客户端
+ * @param id 客户端id
+ */
+const handleDelete = (id: string) => {
+    removeById(id).then(() => {
+        findClientList(param).then((e) => {
+            clients.value = e.data;
+        });
+    });
 };
 </script>
 

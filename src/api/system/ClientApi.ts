@@ -53,3 +53,11 @@ export function clientRegister(
 ): Promise<ResultType<unknown>> {
     return request.post(`/oauth2/registeredClient/register`, param);
 }
+
+/**
+ * 注销客户端
+ * @param id 客户端id
+ */
+export function removeById(id: string): Promise<ResultType<unknown>> {
+    return request.delete(`/oauth2/registeredClient/deleteClient/${id}`);
+}
